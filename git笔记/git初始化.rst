@@ -40,7 +40,7 @@ Git初始化
          git config --global alias.co checkout
          git config --global alias.br branch
 
-输入 ``git  ci`` 即相当于 ``git commit`` ;输入 ``git st`` 即相当于 ``git status`` 。
+   输入 ``git  ci`` 即相当于 ``git commit`` ;输入 ``git st`` 即相当于 ``git status`` 。
 
 3. 在Git命令输出中开启颜色显示。
 
@@ -89,4 +89,68 @@ Git初始化
 对于Git来说，版本库位于工作区根目录下的 ``.git`` 目录中，且仅此一处，在工作区的子目录下则没有任何其他跟踪文件或目录。
 
 当在Git工作区的某个子目录下执行操作的时候，会在工作区目录中依次向上递归查找 ``.git`` 目录，找到的 ``.git`` 目录就是工作区对应的版本库， ``.git`` 所在的目录就是工作区的根目录，文件 ``.git/index`` 记录了工作区文件的状态(实际上是暂存区的状态)。
+
+在非git命令工作区执行git命令时会因找不到 ``.git`` 目录而报错。
+
+当我们处于深层目录中时，又什么办法知道Git版本库的位置呢？如何才能知道工作区的根目录在哪里呢？可以用Git的一个底层命令来实现，具体操作过程如下：
+
+1. 在工作区中建立目录 ``a/b/c`` ，进入到该目录中。
+
+   .. code-block:: shell
+  
+      cd /path/to/my/workspace/demo/
+      mkdir -p a/b/c
+      cd /path/to/my/workspace/demo/a/b/c
+
+2. 显示版本库 ``.git`` 目录所在的位置
+
+   .. code-block:: shell
+  
+      git rev-parse --git-dir
+      /path/to/my/workspace/demo/.git
+
+3. 显示工作区根目录
+
+   .. code-block:: shell
+   
+       git rev-parse --show-toplevel
+       /path/to/my/workspace/demo
+
+4. 相对于工作区根目录的相对目录
+
+   .. code-block:: shell
+   
+       git rev-parse --show-prefix
+       a/b/c/
+
+5. 显示从当前目录后退到工作区根的深度
+
+   .. code-block:: shell
+   
+       git rev-parse --show-cdup
+       ../../../
+
+从存储安全的角度上来讲，讲版本库放在工作区目录下有点“把鸡蛋装在一个篮子里”的味道。如果忘记了工作区中还有版本库，当直接从工作区的根执行目录删除操作时就会连版本库一并删除。
+
+Git克隆可以降低因为版本库和工作区混杂在一起而导致的版本库被破坏的风险。可以通过克隆操作在本机另外的磁盘/目录中建立Git克隆，并在工作区有新的提交时，手动或自动地执行向克隆版本库的推送操作。如果使用网络协议，还可以实现在其它机器上建立克隆，这样就更安全了(双机备份)。
+
+git config 命令的各参数有何区别
+=============================
+
+如下命令用来操作该文件：
+
+- 执行下面的命令，将打开该文件进行编辑。
+
+  .. code-block:: shell
+  
+      cd /path/to/my/workspace/demo
+      git config -e
+
+- 执行下面的命令，将打开 ``/home/当前用户名称/.gitconfig`` (用户主目录下的.gitconfig文件)全局配置文件进行编辑。
+
+  ``git config -e --global``
+
+- 执行下面的命令，将打开 ``/etc/gitconfig`` 系统级配置文件进行编辑。如果Git安装在非标准位置，则这个系统级的位置文件也可能是在另外的位置。
+
+  ``git config -e --system``
 
