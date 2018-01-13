@@ -55,33 +55,33 @@ Git暂存区
 
 (1) 继续修改一下demo.txt文件(在文件后面再追加一行)。
 
-``echo "Bye-Bye." >> demo.txt``
+    ``echo "Bye-Bye." >> demo.txt``
 
 (2) 然后执行 ``git status`` ,查看一下状态：
 
-.. code-block:: shell
+    .. code-block:: shell
 
-    D:\gitdome>git status
-    On branch master
-    Changes to be committed:
-      (use "git reset HEAD <file>..." to unstage)
+        D:\gitdome>git status
+        On branch master
+        Changes to be committed:
+          (use "git reset HEAD <file>..." to unstage)
 
-            modified:   test.txt
+                modified:   test.txt
 
-    Changes not staged for commit:
-      (use "git add <file>..." to update what will be committed)
-      (use "git checkout -- <file>..." to discard changes in working directory)
+        Changes not staged for commit:
+          (use "git add <file>..." to update what will be committed)
+          (use "git checkout -- <file>..." to discard changes in working directory)
 
-            modified:   test.txt
+                modified:   test.txt
 
-状态输出存在前面两种不同状态输入的杂合体。
+    状态输出存在前面两种不同状态输入的杂合体。
 
 (3) 如果显示精简的状态输出，也会看到前面两种精简输出的杂合体。
 
-.. code-block:: shell
+    .. code-block:: shell
 
-    D:\gitdome>git status -s
-    MM test.txt
+        D:\gitdome>git status -s
+        MM test.txt
 
 上面M字符存在不同的位置表示不同的意思：
 
@@ -120,9 +120,15 @@ Git暂存区
 
 (3) 通过参数 ``--cached`` 或 ``--staged`` 调用 ``git diff`` 命令，看到的是提交暂存区和版本库中文件的差异。
 
-
 理解git暂存区(stage)
 ===================
+在版本库 ``.git`` 目录下有一个index文件。当执行 ``git status`` 命令扫描工作区改动的时候，先依据 ``.git/index`` 文件中记录的(用于跟踪工作区文件的)时间戳、长度等信息判断工作区文件是否改变，如果工作区文件的事件戳改变了，说明文件的内容可能被改变了，需要打开文件，读取文件的内容，与更改前的原始文件相比较，判断文件内容是否被更改。如果文件内容没有改变，则将该文件新的时间戳记录到 ``.git/index`` 文件中。因为如果要判断文件是否更改，使用时间戳、文件长度等信息进行比较要比通过文件内容比较要快的多，所以Git这样的实现方式可以让工作区状态扫描更快速地执行，这也是Git高效的原因之一。
+
+文件 ``.git/index`` 实际上就是一个包含文件索引的目录树，像是一个虚拟的工作区。在这个虚拟工作区的目录树中，记录了文件名和文件的状态信息(时间戳和文件长度等)。文件的内容并没有存储在其中，而是保存在Git对象库 ``.git/objects`` 目录中，文件索引建立了文件和对象库中对象实体之间的对应。
+
+.. image:: ./image/git-stage.png
+   :align: center
+
 
 
 git diff魔法
