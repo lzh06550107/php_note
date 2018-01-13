@@ -38,7 +38,7 @@ Git暂存区
 
     no changes added to commit (use "git add" and/or "git commit -a")
 
-上面的信息显示对于master分支的提交，因为暂存区该文件没有改变而失败。它建议或者使用 `git add`` 添加修改到暂存区或者 ``git checkout`` 从版本库中获取文件来覆盖当前文件修改。
+上面的信息显示对于master分支的提交，因为暂存区该文件没有改变而失败。它建议或者使用 ``git add`` 添加修改到暂存区或者 ``git checkout`` 从版本库中获取文件来覆盖当前文件修改。
 
 是否提交成功的判断依据：
 
