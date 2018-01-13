@@ -40,7 +40,7 @@ Git初始化
          git config --global alias.co checkout
          git config --global alias.br branch
 
-     输入 ``git  ci`` 即相当于 ``git commit`` ;输入 ``git st`` 即相当于 ``git status`` 。
+输入 ``git  ci`` 即相当于 ``git commit`` ;输入 ``git st`` 即相当于 ``git status`` 。
 
 3. 在Git命令输出中开启颜色显示。
 
@@ -70,3 +70,23 @@ Git初始化
 使用 ``git commit`` 命令完成提交。在提交过程中需要输入提交说明，这个要求对于Git来说是强制性的，提交说明需要使用参数 ``-m`` 如：
 
 ``git commit -m "进步鸟的第一次提交"``
+
+.. code-block:: shell
+    
+   D:\gitdome>git commit -m "第一次提交"
+   [master (root-commit) a7ed4c4] 第一次提交
+   1 file changed, 0 insertions(+), 0 deletions(-)
+   create mode 100644 test.txt
+
+命令输出结果分析：
+
+- 从命令输出的第一行可以看出，此次提交是提交在名为master的分支上，且是该分支的第一个提交(root-commit)，提交ID为“a7ed4c4”。
+- 从命令输出的第二行可以看出，此次提交修改了一个文件。
+- 从命令输出的第三行可以看出，此次提交创建了新文件test.txt。
+
+为什么工作区根目录下有一个.git目录
+=================================
+对于Git来说，版本库位于工作区根目录下的 ``.git`` 目录中，且仅此一处，在工作区的子目录下则没有任何其他跟踪文件或目录。
+
+当在Git工作区的某个子目录下执行操作的时候，会在工作区目录中依次向上递归查找 ``.git`` 目录，找到的 ``.git`` 目录就是工作区对应的版本库， ``.git`` 所在的目录就是工作区的根目录，文件 ``.git/index`` 记录了工作区文件的状态(实际上是暂存区的状态)。
+
