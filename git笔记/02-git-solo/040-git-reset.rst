@@ -234,11 +234,11 @@ Git提供了一个 ``git reflog`` 命令，对这个文件进行操作。使用 
 
   仅用HEAD指向的目录树重置暂存区，工作区不会受到影响，相当于将之前用   ``git add`` 命令更新到暂存区的内容撤出暂存区。引用也未改变，  因为引用重置到HEAD相当于没有重置。
 
-* 命令： ``git reset HEAD`
+* 命令： ``git reset HEAD``
 
   同上。
 
-* 命令： ``git reset -- filename`
+* 命令： ``git reset -- filename``
 
   仅将文件 ``filename`` 撤出暂存区，暂存区中其他文件不改变。相当于对命令 ``git add filename`` 的反向操作。
 
