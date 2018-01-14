@@ -9,7 +9,7 @@ Git是开源社区奉献给每一个人的宝贝，用好它可以实现个人�
 
 |ICON-SOUND| 在这里有必要纠正一下Git的发音。一种错误是按照单个字母来发音，另外一种更为普遍的错误是把整个单词读作“技特”，实际上Git中字母G的发音应该是和下列单词中的G类似：great、gift、geek、given。因此Git正确的发音应该听起来像是“歌易特”（连读）。实际上在我写作过程中，我为本书取的代号（code name）为《Got Git》，面对如此具有对称美的代号您还会把Git读错么？
 
-.. |ICON-SOUND| image:: /images/meet-git/icon-01-01-sound.png
+.. |ICON-SOUND| image:: ../images/meet-git/icon-01-01-sound.png
    :width: 60px
    :height: 60px
 
