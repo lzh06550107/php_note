@@ -117,6 +117,34 @@
 --------------------------
 首先我们知道当 ``new`` 一个不存在的类时，如果使用 ``spl_autoload_register`` 定义了一个处理函数，那么这个函数可以获得一个参数，参数名是 ``new``  的类名。比如从前面 ``base.php`` 中我们看到 ``\think\Error::register();`` 使用think命名空间下的 ``Error`` 类的 ``register`` 静态方法，但是我们并没有引入这个文件。可是我们可以在 ``spl_autoload_register`` 注册的函数中得到一个参数 ``think\Error`` ，如果我们的命名空间按照文件夹格式的方法命名（这也是推荐的、常用的命名方式），那么就可以通过该参数来加载对应的文件。
 
+ **NameSpace（命名空间）**
+
+ namespace是PHP5.3版本加入的新特性，用来解决在编写类库或应用程序时创建可重用的代码如类或函数时碰到的两类问题：
+
+ 1. 用户编写的代码与PHP内部的类/函数/常量或第三方类/函数/常量之间的名字冲突。
+ 2. 为很长的标识符名称(通常是为了缓解第一类问题而定义的)创建一个别名（或简短）的名称，提高源代码的可读性。
+
+ PHP 命名空间中的元素使用了类似文件系统的原理。例如，类名可以通过三种方式引用：
+
+ 1. 非限定名称，或不包含前缀的类名称，例如 ``$a=new foo();`` 或 ``foo::staticmethod();`` 。如果当前命名空间是 ``currentnamespace`` ， ``foo`` 将被解析为 ``currentnamespace\foo`` 。如果使用 ``foo`` 的代码是全局的，不包含在任何命名空间中的代码，则 ``foo`` 会被解析为 ``foo`` 。 警告：如果命名空间中的函数或常量未定义，则该非限定的函数名称或常量名称会被解析为全局函数名称或常量名称。详情参见 使用命名空间：后备全局函数名称/常量名称。
+ 2. 限定名称,或包含前缀的名称，例如 ``$a = new subnamespace\foo();`` 或 ``subnamespace\foo::staticmethod();`` 。如果当前的命名空间是 ``currentnamespace`` ，则 ``foo`` 会被解析为 ``currentnamespace\subnamespace\foo`` 。如果使用 ``foo``  的代码是全局的，不包含在任何命名空间中的代码，``foo`` 会被解析为 ``subnamespace\foo`` 。
+ 3. 完全限定名称，或包含了全局前缀操作符的名称，例如， ``$a = new \currentnamespace\foo();`` 或 ``\currentnamespace\foo::staticmethod();`` 。在这种情况下，``foo`` 总是被解析为代码中的文字名(literal name) ``currentnamespace\foo`` 。
+
+ 另外注意访问任意全局类、函数或常量，都可以使用完全限定名称，例如 ``\strlen()`` 或 ``\Exception`` 或 ``\INI_ALL`` 。
+
+ .. code-block:: php
+
+    use My\Full\Classname as Another, My\Full\NSname;
+
+    $obj = new Another; // 实例化一个 My\Full\Classname 对象
+    $obj = new \Another; // 实例化一个Another对象
+    $obj = new Another\thing; // 实例化一个My\Full\Classname\thing对象
+    $obj = new \Another\thing; // 实例化一个Another\thing对象
+
+    $a = \strlen('hi'); // 调用全局函数strlen
+    $b = \INI_ALL; // 访问全局常量 INI_ALL
+    $c = new \Exception('error'); // 实例化全局类 Exception
+
 按照自定义的映射来加载类
 -------------------------
 上面解决了命名空间类自动加载，但是如果特殊情况下没有按照文件夹的格式来进行命名空间的命名，那么就需要手动指定映射关系。 ``self::addClassMap(__include_file(RUNTIME_PATH . 'classmap' . EXT));`` 就是来定义手动指定文件与文件路径映射关系的。
@@ -132,4 +160,5 @@
 这个不用详细解释了，先处理由 ``addNamespace`` 设定的命名空间别名，然后通过 ``findFile`` 来处理映射关系，得到真实的路径，并加载文件。
 
 而 ``__autoload()`` 函数具有类似的功能。但是为什么用的很少呢？因为 ``__autoload()`` 只能指定一个函数，而 ``spl_autoload_register`` 可以注册多个函数来处理这个逻辑。一旦业务复杂 ``__autoload()`` 就完全不能胜任。
+
 
