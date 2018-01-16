@@ -16,7 +16,7 @@
 
 下面的加载配置文件不用说，现在重点看一下异常处理。
 
-打开 ``library/think/Error.php`` ，register函数。
+打开 ``library/think/Error.php`` ， ``register`` 函数。
 
 .. code-block:: php
 
@@ -28,7 +28,8 @@
         //设置默认的异常处理程序，用于没有用 try/catch 块来捕获的异常。 在 exception_handler 调用后异常会中止。
         set_exception_handler([__CLASS__, 'appException']);
         /*
-         * register_shutdown_function 的函数,可以让我们设置一个当执行关闭时可以被调用的另一个函数.也就是说当我们的脚本执行完成或意外死掉导致PHP执行即将关闭时,我们的这个函数将会被调用。
+         * register_shutdown_function 的函数,可以让我们设置一个当执行关闭时可以被调用的另一个函数。
+         * 也就是说当我们的脚本执行完成或意外死掉导致PHP执行即将关闭时,我们的这个函数将会被调用。
          * 可以这样理解调用条件：
          * 1、当页面被用户强制停止时
          * 2、当程序代码运行超时时
